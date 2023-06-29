@@ -1,9 +1,10 @@
 # upload-release-assets
+
 Action to easily upload release assets to existing release
 
-Action provides ability to update an existing release with more assets
+Action provides the ability to update an existing release with more assets
 
-```
+``` yaml
 - uses: echapmanFromBunnings/upload-release-assets@1.3
   with:
     releaseTag: '1.1.1'
@@ -14,9 +15,9 @@ Action provides ability to update an existing release with more assets
       ./buildArtfacts/*
 ```
 
-Alternatively you can provide an artefact name and it will upload accordingly
+Alternatively, you can provide an artefact name and it will upload accordingly
 
-```
+```yaml
 - uses: echapmanFromBunnings/upload-release-assets@1.3
   with:
     releaseTag: '1.1.1'
@@ -24,14 +25,24 @@ Alternatively you can provide an artefact name and it will upload accordingly
     artefactName: my-artefacts-for-upload
 ```
 
-There is also an override option available, for if the asset already exists.
+There is also an override option available. For example, if the asset already exists.
 This is off by default
 
-```
+```yaml
 - uses: echapmanFromBunnings/upload-release-assets@1.3
   with:
     releaseTag: '1.1.1'
     githubToken: ${{ secrets.GITHUB_TOKEN }}
     artefactName: my-artefacts-for-upload
     overrideExistingArtefact: true
+```
+
+You can also supply a releaseId instead of a tag.
+
+```yaml
+- uses: echapmanFromBunnings/upload-release-assets@1.3
+  with:
+    releaseId: 123456789
+    githubToken: ${{ secrets.GITHUB_TOKEN }}
+    artefactName: my-artefacts-for-upload
 ```

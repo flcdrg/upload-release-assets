@@ -10,6 +10,10 @@ inputs:
     description: 'Release tag to be updated'
     required: false
     default: '${{ github.event.release.tag_name }}'
+  releaseId:
+    description: 'Release id to be updated (overrides releaseTag)'
+    required: false
+    default: ''
   githubToken:
     description: 'Token for the repository. Can be passed in using {{ secrets.GITHUB_TOKEN }}'
     required: true
@@ -57,11 +61,20 @@ runs:
           const path = require('path');
           const fs = require('fs');
           const os = require('os');
+
+          const releaseId = '${{inputs.releaseId}}';
           
           const __dirname = path.resolve()
           
           console.log('searching for release...')
-          var { data: release } = await github.rest.repos.getReleaseByTag({
+          var { data: release } = releaseId !== '' ?
+            await github.rest.repos.getRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: releaseId
+            })
+          
+            : await github.rest.repos.getReleaseByTag({
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag: '${{inputs.releaseTag}}'
